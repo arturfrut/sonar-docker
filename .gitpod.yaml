@@ -1,0 +1,23 @@
+image:
+  file: .gitpod.Dockerfile
+
+# Configurar puertos que Gitpod debe mapear
+ports:
+  - port: 9000
+    onOpen: open-preview
+
+tasks:
+  - name: Start Docker
+    init: |
+      sudo apt-get update
+      sudo apt-get install -y docker.io
+      sudo service docker start
+    command: |
+      # Construye tu imagen Docker
+      docker build -t my-sonarqube .
+      
+      # Ejecuta tu contenedor en segundo plano
+      docker run -d --name sonarqube -p 9000:9000 my-sonarqube
+      
+      # Revisa que esté corriendo
+      docker ps
